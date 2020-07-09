@@ -1,21 +1,27 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { findByTestAttr, checkProps } from '../../../test/testUtils';
 
+import LanguageContext from '../../context/LanguageContext';
 import Input from './Input';
-import { assertPropTypes } from 'check-prop-types';
 
 const defaultProps = { secretWord: 'super' }
 
-const setup = (props = defaultProps) => {
-    return shallow(<Input {...props} />)
+const setup = ({ language, success, secretWord = 'super' }) => {
+    language = language || 'en'
+    success = success || false;
+    return mount(
+        <LanguageContext.Provider value={language}>
+            <Input secretWord={secretWord} />
+        </LanguageContext.Provider>
+    )
 }
 
 describe('successful render', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = setup()
+        wrapper = setup({})
     })
     test('renders Input component', () => {
         const component = findByTestAttr(wrapper, 'component-input-container')
@@ -41,7 +47,7 @@ describe('state controlled input component', () => {
     let wrapper;
     let input;
     beforeEach(() => {
-        wrapper = setup()
+        wrapper = setup({})
         input = findByTestAttr(wrapper, 'component-input-box')
     })
 
@@ -72,6 +78,30 @@ describe('state controlled input component', () => {
         // get updated input
         const newInput = findByTestAttr(wrapper, 'component-input-box')
         expect(newInput.props().value).toBe('')
+    })
+})
+
+describe('language context', () => {
+    let wrapper;
+
+    it('displays correct text for button for english', () => {
+        wrapper = setup({})
+        expect(wrapper.find("[data-test='component-button']").text()).toBe('Submit')
+    })
+
+    it('displays correct text for button for emoji', () => {
+        wrapper = setup({ language: 'emoji' })
+        expect(wrapper.find("[data-test='component-button']").text()).toBe('🚀')
+    })
+
+    it('displays correct text for input for english', () => {
+        wrapper = setup({})
+        expect(wrapper.find("[data-test='component-input-box']").props().placeholder).toBe('enter guess')
+    })
+
+    it('displays correct text for input for emoji', () => {
+        wrapper = setup({ language: 'emoji' })
+        expect(wrapper.find("[data-test='component-input-box']").props().placeholder).toBe('⌨️🤔')
     })
 })
 

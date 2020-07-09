@@ -31,23 +31,25 @@ function App() {
     return dispatch({ type: 'setLanguage', payload: langCode })
   }
 
-
   React.useEffect(() => {
     // get secret word from random word server server
     hookActions.getSecretWord(setSecretWord)
+    // set language on component mount
+    setLanguage('en')
   }, [])
-
 
   return (
     <>
       {state &&
         state.secretWord ?
-        <LanguageContext.Provider>
-          <div className='container' data-test="component-app">
+        <div className='container my-5' data-test="component-app">
+          <div className='row'></div>
+          <h1 className='text-center '>Jotto</h1>
+          <LanguageContext.Provider value={state.language}>
             <LanguagePicker setLanguage={setLanguage} />
             <Input secretWord={state.secretWord} />
-          </div>
-        </LanguageContext.Provider>
+          </LanguageContext.Provider>
+        </div>
 
         :
 

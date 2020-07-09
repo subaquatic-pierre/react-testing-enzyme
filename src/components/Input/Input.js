@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import LanguageContext from '../../context/LanguageContext'
+import { getTranslation } from '../../helpers/string';
+
 const Input = ({ secretWord }) => {
+    const language = React.useContext(LanguageContext)
     const [currentGuess, setCurrentGuess] = React.useState('')
 
     const handleInputChange = ({ target }) => {
@@ -10,7 +14,6 @@ const Input = ({ secretWord }) => {
 
     const handleSubmitClick = (e) => {
         e.preventDefault()
-
         // TODO: call guessWord action
         setCurrentGuess('')
     }
@@ -23,7 +26,7 @@ const Input = ({ secretWord }) => {
                         <input
                             data-test="component-input-box"
                             className="form-control"
-                            placeholder="Enter your guess"
+                            placeholder={language && getTranslation('guessInputPlaceholder', language)}
                             name="input"
                             value={currentGuess}
                             onChange={(event) => handleInputChange(event)}
@@ -36,7 +39,7 @@ const Input = ({ secretWord }) => {
                             type="submit"
                             onClick={(e) => handleSubmitClick(e)}
                         >
-                            Check it
+                            {language && getTranslation('submit', language)}
                         </button>
                     </div>
                 </div>

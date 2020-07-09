@@ -4,6 +4,7 @@ import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
     icon: {
+        margin: '0 0.5rem',
         '&:hover': {
             cursor: 'pointer'
         }
@@ -30,7 +31,7 @@ const LanguagePicker = (props) => {
     ))
 
     return (
-        <div data-test="component-language-picker" >
+        <div data-test="component-language-picker" className='d-flex justify-content-center'>
             {languageIcons}
         </div >
     )

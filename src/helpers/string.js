@@ -27,6 +27,7 @@ const languageStrings = {
  * @returns {String} - Translated word
  */
 export const getTranslation = (word, lang, langObj = languageStrings) => {
+    // console.log(word, lang, langObj)
     if (!langObj[lang] || !langObj[lang][word]) {
         console.warn(`[${word}] not found in [${lang}]`)
         return word
