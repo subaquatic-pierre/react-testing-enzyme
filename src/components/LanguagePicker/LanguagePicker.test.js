@@ -23,6 +23,4 @@ describe('render', () => {
         wrapper = setup()
         expect(wrapper.find("[data-test='component-language-icon']").length).toBeGreaterThan(0)
     })
-
-
 })
