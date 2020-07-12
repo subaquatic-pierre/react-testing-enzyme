@@ -59,3 +59,17 @@ describe('if there are words guessed', () => {
     expect(guessedWordNodes.length).toBe(guessedWords.length);
   });
 });
+
+describe('languagePicker', () => {
+  it('shows correct english instrcutions', () => {
+    const wrapper = setup({ guessedWords: [] })
+    expect(wrapper.find("[data-test='guess-instructions']").text()).toBe('Try to guess the secret word!')
+  })
+
+  it('shows correct emoji instrcutions', () => {
+    const mockUseContext = jest.fn().mockReturnValue('emoji')
+    React.useContext = mockUseContext
+    const wrapper = setup({ guessedWords: [] })
+    expect(wrapper.find("[data-test='guess-instructions']").text()).toBe('🤔🤫🔤')
+  })
+})
